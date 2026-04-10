@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CORE Theory</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0e0e;color:#e5e2e1;font-family:'Manrope',sans-serif;min-height:100dvh}
+.hf{font-family:'Space Grotesk',sans-serif}
+.gl{background:rgba(53,53,52,0.5);backdrop-filter:blur(20px);border:1px solid rgba(255,233,176,0.13)}
+.ms{font-family:'Material Symbols Outlined';font-size:22px;line-height:1;user-select:none}
+.page{display:none}
+.page.on{display:block;animation:fi .3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.gold{color:#ffe9b0}
+.tag{display:inline-block;padding:3px 10px;border:1px solid rgba(255,233,176,0.25);border-radius:4px;font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#ffe9b0}
+.bar{height:6px;background:rgba(255,233,176,0.1);border-radius:99px;overflow:hidden}
+.bf{height:100%;background:#ffe9b0;border-radius:99px}
+.row{display:flex;justify-content:space-between;align-items:center}
+.met{background:#1c1b1b;border-radius:8px;padding:14px}
+.card{cursor:pointer;border-top:2px solid transparent;transition:all .2s}
+.card:hover{background:rgba(40,40,40,.7)!important;border-top-color:rgba(255,233,176,.35);transform:translateY(-2px)}
+.exc{cursor:pointer;transition:all .2s}
+.exc:hover{background:rgba(40,40,40,.8)!important;transform:translateX(4px)}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;background:none;border:none;font-family:'Manrope',sans-serif;cursor:pointer;color:rgba(255,233,176,.28);transition:color .2s}
+.nb:hover{color:rgba(255,233,176,.7)}
+.nb.act{color:#ffe9b0}
+.nb.ctr{background:linear-gradient(135deg,#f2ca50,#ffe9b0);color:#3d2f00!important;border-radius:8px;padding:6px 12px}
+.nb .lbl{font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.modal{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.88);overflow-y:auto}
+.modal.open{display:flex;align-items:flex-start;justify-content:center;padding:20px 16px 40px}
+.mbox{background:#161616;border:1px solid rgba(255,233,176,.15);border-radius:14px;width:100%;max-width:600px;overflow:hidden;margin-top:60px}
+.tab{padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;color:#d0c5af;background:none;border-left:none;border-right:none;border-top:none;font-family:'Manrope',sans-serif}
+.tab.act{color:#ffe9b0;border-bottom-color:#ffe9b0}
+.tc{display:none}
+.tc.on{display:block}
+.hero{position:relative;border-radius:14px;overflow:hidden;margin-bottom:28px;min-height:200px;padding:32px 24px}
+.hm{background:linear-gradient(135deg,#1a1206 0%,#2d1f08 40%,#0e0e0e 100%)}
+.hb{background:linear-gradient(135deg,#060d1a 0%,#0d1f2d 40%,#0e0e0e 100%)}
+.ha{background:linear-gradient(135deg,#0a0614 0%,#1a0d2e 40%,#0e0e0e 100%)}
+@keyframes pg{0%,100%{box-shadow:0 0 8px rgba(255,233,176,.4)}50%{box-shadow:0 0 22px rgba(255,233,176,.9)}}
+.pdot{animation:pg 2s infinite;border-radius:50%;width:8px;height:8px;background:#ffe9b0;display:inline-block}
+.chat-msg{display:flex;gap:10px;margin-bottom:16px}
+.chat-msg.user{flex-direction:row-reverse}
+.chat-bubble{padding:12px 16px;border-radius:12px;font-size:13px;line-height:1.65;max-width:82%}
+.chat-bubble.ai{background:#1c1b1b;color:#e5e2e1;border-bottom-left-radius:4px}
+.chat-bubble.user{background:rgba(255,233,176,.15);color:#ffe9b0;border-bottom-right-radius:4px;border:1px solid rgba(255,233,176,.2)}
+.chat-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px;font-weight:700;font-family:'Space Grotesk',sans-serif}
+.ai-avatar{background:linear-gradient(135deg,#2d1f08,#f2ca50);color:#0e0e0e}
+.user-avatar{background:rgba(255,233,176,.1);color:#ffe9b0;border:1px solid rgba(255,233,176,.2)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.typing span{display:inline-block;width:6px;height:6px;background:#ffe9b0;border-radius:50%;margin:0 2px;animation:blink 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+#chatInput{background:#1c1b1b;border:1px solid rgba(255,233,176,.15);color:#e5e2e1;font-family:'Manrope',sans-serif;font-size:13px;padding:12px 16px;border-radius:10px;outline:none;width:100%;resize:none}
+#chatInput:focus{border-color:rgba(255,233,176,.35)}
+.send-btn{background:linear-gradient(135deg,#f2ca50,#ffe9b0);color:#3d2f00;border:none;border-radius:8px;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Material Symbols Outlined';font-size:20px;line-height:1}
+.quick-btn{background:rgba(255,233,176,.08);border:1px solid rgba(255,233,176,.15);color:#d0c5af;font-family:'Manrope',sans-serif;font-size:11px;padding:6px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:all .2s}
+.quick-btn:hover{background:rgba(255,233,176,.15);color:#ffe9b0}
+</style>
+</head>
+<body>
+
+<nav style="position:fixed;top:0;left:0;width:100%;z-index:100;background:#0e0e0e;border-bottom:1px solid rgba(255,233,176,.1);padding:12px 20px;display:flex;justify-content:space-between;align-items:center;">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#2d1f08,#f2ca50);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <span style="font-size:14px;font-weight:700;color:#0e0e0e;font-family:'Space Grotesk',sans-serif">CT</span>
+    </div>
+    <div>
+      <div class="hf" style="font-size:18px;font-weight:700;color:#ffe9b0;letter-spacing:-.04em;text-transform:uppercase">CORE Theory</div>
+      <div id="sub" style="font-size:10px;color:rgba(255,233,176,.4);letter-spacing:.2em;text-transform:uppercase;font-weight:500">Architecture Hub</div>
+    </div>
+  </div>
+  <span class="ms" style="color:rgba(255,233,176,.5);cursor:pointer">settings</span>
+</nav>
+
+<!-- ===== FORGE PAGE ===== -->
+<div id="pg-forge" class="page on" style="padding:90px 18px 110px;max-width:900px;margin:0 auto">
+  <div class="hero hm" style="border:1px solid rgba(255,233,176,.08)">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(242,202,80,.12) 0%,transparent 70%)"></div>
+    <div style="position:relative;z-index:1">
+      <div class="tag" style="margin-bottom:14px">System Topology v1.0</div>
+      <h1 class="hf" style="font-size:clamp(2rem,8vw,4.5rem);font-weight:700;letter-spacing:-.04em;margin-bottom:10px;line-height:1.05">THE SOVEREIGN <span class="gold">FORGE</span></h1>
+      <p style="color:#d0c5af;font-weight:300;max-width:500px;line-height:1.65;font-size:14px">Mapping the high-performance journey of CORE Theory. Elite data visualization and atmospheric performance tracking.</p>
+    </div>
+  </div>
+  <div class="gl" style="padding:24px;border-radius:12px;border-left:4px solid #ffe9b0;margin-bottom:16px">
+    <div class="row" style="margin-bottom:16px">
+      <span style="font-size:11px;font-weight:700;color:#ffe9b0;letter-spacing:.25em;text-transform:uppercase">Origin Node</span>
+      <span class="ms gold">home</span>
+    </div>
+    <h3 class="hf" style="font-size:22px;font-weight:700;margin-bottom:4px">Minimal Landing</h3>
+    <code style="color:#f2ca50;font-size:11px;display:block;margin-bottom:14px">index.html</code>
+    <p style="font-size:13px;color:#d0c5af;line-height:1.7;margin-bottom:18px">The gateway to the ecosystem. High-impact editorial imagery and minimal entry points for authorized athletes.</p>
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px;font-weight:700;color:#ffe9b0;letter-spacing:.2em;text-transform:uppercase">
+      <span>Status: Operational</span><div class="pdot"></div>
+    </div>
+  </div>
+  <div class="gl" style="padding:18px;border-radius:12px;margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#2d1f08,#f2ca50);display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,233,176,.3)">
+        <span style="font-size:18px;font-weight:700;color:#0e0e0e;font-family:'Space Grotesk',sans-serif">RB</span>
+      </div>
+      <div>
+        <div style="font-size:10px;color:#ffe9b0;letter-spacing:.2em;font-weight:700;text-transform:uppercase">Lead Architect</div>
+        <div class="hf" style="font-size:17px;font-weight:700">Riteish Bhandare</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+    <div class="gl card" onclick="go('protocols')" style="padding:18px;border-radius:12px">
+      <div class="row" style="margin-bottom:14px"><div style="width:38px;height:38px;background:#1c1b1b;border-radius:8px;display:flex;align-items:center;justify-content:center"><span class="ms" style="color:#f2ca50">fitness_center</span></div><span style="font-size:9px;color:#d0c5af;font-weight:700;letter-spacing:.15em;text-transform:uppercase">01</span></div>
+      <div class="hf" style="font-size:16px;font-weight:700;margin-bottom:6px">Protocols</div>
+      <p style="font-size:11px;color:#d0c5af;line-height:1.6;margin-bottom:12px">Gym and home workouts. Tap exercises for full guidance.</p>
+      <div class="bar"><div class="bf" style="width:50%"></div></div>
+    </div>
+    <div class="gl card" onclick="go('vitals')" style="padding:18px;border-radius:12px">
+      <div class="row" style="margin-bottom:14px"><div style="width:38px;height:38px;background:#1c1b1b;border-radius:8px;display:flex;align-items:center;justify-content:center"><span class="ms" style="color:#f2ca50">monitoring</span></div><span style="font-size:9px;color:#d0c5af;font-weight:700;letter-spacing:.15em;text-transform:uppercase">02</span></div>
+      <div class="hf" style="font-size:16px;font-weight:700;margin-bottom:6px">Bio-Data</div>
+      <p style="font-size:11px;color:#d0c5af;line-height:1.6;margin-bottom:12px">Deep physiological tracking. HRV, sleep, metabolic stress.</p>
+      <div class="bar"><div class="bf" style="width:75%"></div></div>
+    </div>
+    <div class="gl card" onclick="go('nutrition')" style="padding:18px;border-radius:12px">
+      <div class="row" style="margin-bottom:14px"><div style="width:38px;height:38px;background:#1c1b1b;border-radius:8px;display:flex;align-items:center;justify-content:center"><span class="ms" style="color:#f2ca50">restaurant</span></div><span style="font-size:9px;color:#d0c5af;font-weight:700;letter-spacing:.15em;text-transform:uppercase">03</span></div>
+      <div class="hf" style="font-size:16px;font-weight:700;margin-bottom:6px">Nutrition</div>
+      <p style="font-size:11px;color:#d0c5af;line-height:1.6;margin-bottom:12px">Macro tracking, meal plans and supplement stack.</p>
+      <div class="bar"><div class="bf" style="width:80%"></div></div>
+    </div>
+    <div class="gl card" onclick="go('zenith')" style="padding:18px;border-radius:12px">
+      <div class="row" style="margin-bottom:14px"><div style="width:38px;height:38px;background:#1c1b1b;border-radius:8px;display:flex;align-items:center;justify-content:center"><span class="ms" style="color:#f2ca50">military_tech</span></div><span style="font-size:9px;color:#d0c5af;font-weight:700;letter-spacing:.15em;text-transform:uppercase">04</span></div>
+      <div class="hf" style="font-size:16px;font-weight:700;margin-bottom:6px">Zenith Rewards</div>
+      <p style="font-size:11px;color:#d0c5af;line-height:1.6;margin-bottom:12px">Performance marketplace. Unlock elite benefits.</p>
+      <div class="bar"><div class="bf" style="width:25%"></div></div>
+    </div>
+  </div>
+  <div class="gl card" onclick="go('coreai')" style="padding:20px;border-radius:12px;margin-bottom:20px;border:1px solid rgba(255,233,176,.15)">
+    <div style="display:flex;align-items:center;gap:14px">
+      <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#1a0d2e,#6a1b9a);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span class="ms" style="color:#e4b5ff;font-size:24px;font-variation-settings:'FILL' 1">smart_toy</span>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:10px;color:#e4b5ff;letter-spacing:.2em;font-weight:700;text-transform:uppercase;margin-bottom:3px">AI Coach</div>
+        <div class="hf" style="font-size:17px;font-weight:700;margin-bottom:4px">CORE AI</div>
+        <p style="font-size:12px;color:#d0c5af;line-height:1.5">Ask anything about training, nutrition, recovery or performance. Your personal AI coach is ready.</p>
+      </div>
+      <span class="ms" style="color:#e4b5ff">chevron_right</span>
+    </div>
+  </div>
+  <div class="gl" style="padding:24px;border-radius:12px">
+    <div style="font-size:11px;font-weight:700;color:#ffe9b0;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px">Design Language</div>
+    <p class="hf" style="font-size:17px;font-weight:500;line-height:1.55;margin-bottom:18px">Built on the <em class="gold">Royal Forge</em> system. Dark, pressurized environments where obsidian surfaces meet the molten glow of royal gold.</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <div style="background:#0e0e0e;border:1px solid rgba(77,70,53,.4);border-radius:4px;padding:5px 10px;display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:50%;background:#ffe9b0"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase">Primary Gold</span></div>
+      <div style="background:#0e0e0e;border:1px solid rgba(77,70,53,.4);border-radius:4px;padding:5px 10px;display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:50%;background:#6a1b9a"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase">Deep Purple</span></div>
+      <div style="background:#0e0e0e;border:1px solid rgba(77,70,53,.4);border-radius:4px;padding:5px 10px;display:flex;align-items:center;gap:6px"><div style="width:7px;height:7px;border-radius:50%;background:#0e0e0e;border:1px solid #4d4635"></div><span style="font-size:10px;font-weight:700;text-transform:uppercase">Obsidian</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PROTOCOLS PAGE ===== -->
+<div id="pg-protocols" class="page" style="padding:90px 18px 110px;max-width:900px;margin:0 auto">
+  <div class="hero hb" style="border:1px solid rgba(255,233,176,.08)">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(255,233,176,.08) 0%,transparent 70%)"></div>
+    <div style="position:relative;z-index:1">
+      <div class="tag" style="margin-bottom:14px">Training Engine</div>
+      <h1 class="hf" style="font-size:clamp(1.8rem,7vw,4rem);font-weight:700;letter-spacing:-.04em;margin-bottom:10px">TRAINING <span class="gold">PROTOCOLS</span></h1>
+      <p style="color:#d0c5af;font-weight:300;line-height:1.65;font-size:14px">Engineered sequences built around your biology. Adaptive. Relentless.</p>
+    </div>
+  </div>
+  <div style="display:flex;border-bottom:1px solid rgba(255,233,176,.1);margin-bottom:20px">
+    <button class="tab act" id="t-gym" onclick="sTab('gym')">Gym Workout</button>
+    <button class="tab" id="t-home" onclick="sTab('home')">Home Workout</button>
+  </div>
+  <!-- GYM TAB -->
+  <div id="tab-gym" class="tc on">
+    <div class="gl" style="padding:20px;border-radius:12px;border-left:4px solid #ffe9b0;margin-bottom:18px">
+      <div class="row" style="margin-bottom:16px">
+        <div><div style="font-size:10px;color:#ffe9b0;letter-spacing:.2em;font-weight:700;text-transform:uppercase;margin-bottom:4px">Today</div><div class="hf" style="font-size:18px;font-weight:700">Upper Hypertrophy Phase 2</div></div>
+        <div style="text-align:right"><div class="hf gold" style="font-size:26px;font-weight:700">72%</div><div style="font-size:10px;color:#d0c5af;text-transform:uppercase">Readiness</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">
+        <div class="met" style="text-align:center"><div class="hf gold" style="font-size:20px;font-weight:700">6</div><div style="font-size:10px;color:#d0c5af;text-transform:uppercase;margin-top:3px">Exercises</div></div>
+        <div class="met" style="text-align:center"><div class="hf gold" style="font-size:20px;font-weight:700">75</div><div style="font-size:10px;color:#d0c5af;text-transform:uppercase;margin-top:3px">Minutes</div></div>
+        <div class="met" style="text-align:center"><div class="hf gold" style="font-size:20px;font-weight:700">18</div><div style="font-size:10px;color:#d0c5af;text-transform:uppercase;margin-top:3px">Sets</div></div>
+      </div>
+      <button style="width:100%;background:#ffe9b0;color:#3d2f00;font-weight:700;font-family:'Space Grotesk',sans-serif;letter-spacing:.15em;text-transform:uppercase;font-size:12px;padding:12px;border-radius:6px;border:none;cursor:pointer">Begin Protocol</button>
+    </div>
+    <div style="font-size:10px;font-weight:700;color:#d0c5af;letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px">Tap exercise for full guidance</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="gl exc" onclick="showEx('bench')" style="padding:14px 16px;border-radius:10px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px"><div style="width:26px;height:26px;background:rgba(255,233,176,.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#ffe9b0">01</div><div><div style="font-weight:700;font-size:14px">Incline Barbell Press</div><div style="font-size:11px;color:#d0c5af;margin-top:2px">Chest · 4 sets · 6-8 reps · RPE 8</div></div></div><span class="ms gold">chevron_right</span></div>
+      <div class="gl exc" onclick="showEx('pullup')" style="padding:14px 16px;border-radius:10px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px"><div style="width:26px;height:26px;background:rgba(255,233,176,.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#ffe9b0">02</div><div><div style="font-weight:700;font-size:14px">Weighted Pull-Ups</div><div style="font-size:11px;color:#d0c5af;margin-top:2px">Back · 4 sets · 5-7 reps · RPE 8</div></div></div><span class="ms gold">chevron_right</span></div>
+      <div class="gl exc" onclick="showEx('shoulder')" style="padding:14px 16px;border-radius:10px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px"><div style="width:26px;height:26px;background:rgba(255,233,176,.1);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#ffe9b0">03</div><div><div style="font-weight:700;font-size:14px">Seated DB Shoulder Press</div><div style="font-size:11px;color:#d0c5af;margin-top:2px">Shoulders · 3 sets · 10-12 reps · RPE 7</div></div></div><span class="ms gold">chevron_right</span></div>
+      <div class="gl exc" onclick="showEx('rows')" style="padding:14px 16px;border-radius:10px;display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;gap:12px"><div style="width:26px;height:26px;background:rgba(255,233,176,.1);border-radius
