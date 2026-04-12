@@ -1,2 +1,2 @@
 # Core-Theory
-My personal info created in react
+it's so about physical fitness
